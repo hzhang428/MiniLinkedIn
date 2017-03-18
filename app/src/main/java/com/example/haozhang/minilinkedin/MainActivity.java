@@ -10,10 +10,7 @@ import com.example.haozhang.minilinkedin.model.Experience;
 import com.example.haozhang.minilinkedin.model.Project;
 import com.example.haozhang.minilinkedin.util.DateUtils;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
