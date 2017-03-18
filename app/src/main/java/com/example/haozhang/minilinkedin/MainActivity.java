@@ -2,6 +2,8 @@ package com.example.haozhang.minilinkedin;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.haozhang.minilinkedin.model.BasicInfo;
@@ -9,6 +11,8 @@ import com.example.haozhang.minilinkedin.model.Education;
 import com.example.haozhang.minilinkedin.model.Experience;
 import com.example.haozhang.minilinkedin.model.Project;
 import com.example.haozhang.minilinkedin.util.DateUtils;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,9 +35,9 @@ public class MainActivity extends AppCompatActivity {
     private void setupUI() {
         setContentView(R.layout.activity_main);
         setupBasicInfo();
-        setupEducation();
-        setupExperience();
-        setupProject();
+        setupEducations();
+        setupExperiences();
+        setupProjects();
     }
 
     private void setupBasicInfo() {
@@ -41,20 +45,48 @@ public class MainActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.email)).setText(basicInfo.email);
     }
 
-    private void setupEducation() {
-        String range = "(" + DateUtils.dateToString(educations.get(0).startDate) + "~" + DateUtils.dateToString(educations.get(0).endDate) + ")";
-        ((TextView) findViewById(R.id.education_school)).setText(educations.get(0).school + " " + range);
-        ((TextView) findViewById(R.id.education_courses)).setText(formatItems(educations.get(0).courses));
+    private void setupEducations() {
+        LinearLayout educationsLayout = (LinearLayout) findViewById(R.id.educations);
+        for (Education education : educations) {
+            educationsLayout.addView(getEducationView(education));
+        }
+
     }
 
-    private void setupExperience() {
-        ((TextView) findViewById(R.id.experience_company)).setText(experiences.get(0).company);
-        ((TextView) findViewById(R.id.experience_detail)).setText(formatItems(experiences.get(0).items));
+    private View getEducationView(Education education) {
+        View view = getLayoutInflater().inflate(R.layout.education_item, null);
+        String range = "(" + DateUtils.dateToString(education.startDate) + "~" + DateUtils.dateToString(education.endDate) + ")";
+        ((TextView) view.findViewById(R.id.education_school)).setText(education.school + " " + range);
+        ((TextView) view.findViewById(R.id.education_courses)).setText(formatItems(education.courses));
+        return view;
     }
 
-    private void setupProject() {
-        ((TextView) findViewById(R.id.project_name)).setText(projects.get(0).name);
-        ((TextView) findViewById(R.id.project_detail)).setText(formatItems(projects.get(0).details));
+    private void setupExperiences() {
+        LinearLayout experienceLayout = (LinearLayout) findViewById(R.id.experiences);
+        for (Experience experience : experiences) {
+            experienceLayout.addView(getExperienceView(experience));
+        }
+    }
+
+    private View getExperienceView(Experience experience) {
+        View view = getLayoutInflater().inflate(R.layout.experience_item, null);
+        ((TextView) view.findViewById(R.id.experience_company)).setText(experience.company);
+        ((TextView) view.findViewById(R.id.experience_detail)).setText(formatItems(experience.items));
+        return view;
+    }
+
+    private void setupProjects() {
+        LinearLayout projectLayout = (LinearLayout) findViewById(R.id.projects);
+        for (Project project : projects) {
+            projectLayout.addView(getProjectView(project));
+        }
+    }
+
+    private View getProjectView(Project project) {
+        View view = getLayoutInflater().inflate(R.layout.project_item, null);
+        ((TextView) view.findViewById(R.id.project_name)).setText(project.name);
+        ((TextView) view.findViewById(R.id.project_detail)).setText(formatItems(project.details));
+        return view;
     }
 
     private String formatItems(List<String> item) {
@@ -87,6 +119,18 @@ public class MainActivity extends AppCompatActivity {
         education.courses.add("Algorithm");
         education.courses.add("Database");
         educations.add(education);
+
+        Education education1 = new Education();
+        education1.id = "second";
+        education1.school = "University of Georgia";
+        education1.major = "Soil Microbiology";
+        education1.startDate = DateUtils.stringToDate("08/2010");
+        education1.endDate = DateUtils.stringToDate("05/2013");
+        education1.courses = new ArrayList<>();
+        education1.courses.add("Microbial Genetics");
+        education1.courses.add("Statistics");
+        education1.courses.add("Soil and Hydrology");
+        educations.add(education1);
 
         experiences = new ArrayList<>();
         Experience experience = new Experience();
