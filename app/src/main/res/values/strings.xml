@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">MiniLinkedIn</string>
+
+    <string name="example_name">Hao Zhang</string>
+    <string name="example_email">hzhang428@gatech.edu</string>
+
+    <string name="section_education">Education</string>
+    <string name="example_school">Georgia Institution of Technology</string>
+
+    <string name="section_experience">Experience</string>
+    <string name="example_experience">Norfolk Southern</string>
+
+    <string name="section_projects">Projects</string>
+    <string name="example_project">Mini Linkedin Mobile Client</string>
 </resources>
