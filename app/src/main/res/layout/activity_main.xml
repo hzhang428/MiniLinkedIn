@@ -14,6 +14,7 @@
 
         tools:context="com.example.haozhang.minilinkedin.MainActivity">
 
+        <!---Basic info section-->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -63,6 +64,7 @@
 
         </RelativeLayout>
 
+        <!---Education section-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -89,34 +91,12 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/educations"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:orientation="vertical" />
 
-            <TextView
-                android:id="@+id/education_school"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/example_school"/>
-
-            <ImageButton
-                android:id="@+id/edit_school_btn"
-                android:layout_width="@dimen/icon_button_size"
-                android:layout_height="@dimen/icon_button_size"
-                android:layout_marginRight="@dimen/spacing_medium"
-                android:src="@drawable/ic_mode_edit_black_18px"
-                android:background="?attr/selectableItemBackground"/>
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/education_courses"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="- Database\n- Algorithm\n- Network"/>
-
+        <!---Experience section-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -143,35 +123,12 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/experiences"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:orientation="vertical" />
 
-            <TextView
-                android:id="@+id/experience_company"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/example_experience"/>
-
-            <ImageButton
-                android:id="@+id/edit_experience_detail_btn"
-                android:layout_width="@dimen/icon_button_size"
-                android:layout_height="@dimen/icon_button_size"
-                android:layout_marginRight="@dimen/spacing_medium"
-                android:src="@drawable/ic_mode_edit_black_18px"
-                android:background="?attr/selectableItemBackground"/>
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/experience_detail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="- Web Application Development\n- Cassandra\n- Splunk"/>
-
-
+        <!---Projects section-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -198,33 +155,11 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/projects"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:orientation="vertical" />
 
-            <TextView
-                android:id="@+id/project_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/example_project"/>
-
-            <ImageButton
-                android:id="@+id/edit_project_btn"
-                android:layout_width="@dimen/icon_button_size"
-                android:layout_height="@dimen/icon_button_size"
-                android:layout_marginRight="@dimen/spacing_medium"
-                android:src="@drawable/ic_mode_edit_black_18px"
-                android:background="?attr/selectableItemBackground"/>
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/project_detail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="- UI design\n- Implement local storage\n- Multi-Language support"/>
 
     </LinearLayout>
 </ScrollView>
