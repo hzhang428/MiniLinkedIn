@@ -1,8 +1,12 @@
 package com.example.haozhang.minilinkedin;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -19,6 +23,16 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final int REQ_CODE_EDUCATION_EDIT = 100;
+    private static final int REQ_CODE_PROJECT_EDIT = 101;
+    private static final int REQ_CODE_EXPERIENCE_EDIT = 102;
+    private static final int REQ_CODE_BASIC_INFO_EDIT = 103;
+
+    private static final String MODEL_EDUCATION = "educations";
+    private static final String MODEL_PROJECT = "projects";
+    private static final String MODEL_EXPERIENCE = "experiences";
+    private static final String MODEL_BASIC_INFO = "basic_info";
+
     private BasicInfo basicInfo;
     private List<Education> educations;
     private List<Experience> experiences;
@@ -28,16 +42,46 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        fakeData();
         setupUI();
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
+                case REQ_CODE_BASIC_INFO_EDIT:
+                    break;
+                case REQ_CODE_EDUCATION_EDIT:
+                    Education education = data.getParcelableExtra(EducationEditActivity.KEY_EDUCATION);
+                    if (educations == null) {
+                        educations = new ArrayList<>();
+                    }
+                    updateEducation(education);
+                    break;
+                case REQ_CODE_EXPERIENCE_EDIT:
+                    break;
+                case REQ_CODE_PROJECT_EDIT:
+                    break;
+            }
+        }
     }
 
     private void setupUI() {
         setContentView(R.layout.activity_main);
-        setupBasicInfo();
-        setupEducations();
-        setupExperiences();
-        setupProjects();
+
+        ImageButton addEducationBtn = (ImageButton) findViewById(R.id.add_education_btn);
+        addEducationBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, EducationEditActivity.class);
+                startActivityForResult(intent, REQ_CODE_EDUCATION_EDIT);
+            }
+        });
+//        setupBasicInfo();
+//        setupEducations();
+//        setupExperiences();
+//        setupProjects();
     }
 
     private void setupBasicInfo() {
@@ -47,17 +91,25 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupEducations() {
         LinearLayout educationsLayout = (LinearLayout) findViewById(R.id.educations);
+        educationsLayout.removeAllViews();
         for (Education education : educations) {
             educationsLayout.addView(getEducationView(education));
         }
-
     }
 
-    private View getEducationView(Education education) {
+    private View getEducationView(final Education education) {
         View view = getLayoutInflater().inflate(R.layout.education_item, null);
         String range = "(" + DateUtils.dateToString(education.startDate) + "~" + DateUtils.dateToString(education.endDate) + ")";
         ((TextView) view.findViewById(R.id.education_school)).setText(education.school + " " + range);
         ((TextView) view.findViewById(R.id.education_courses)).setText(formatItems(education.courses));
+        view.findViewById(R.id.edit_school_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, EducationEditActivity.class);
+                intent.putExtra(EducationEditActivity.KEY_EDUCATION, education);
+                startActivityForResult(intent, REQ_CODE_EDUCATION_EDIT);
+            }
+        });
         return view;
     }
 
@@ -89,66 +141,31 @@ public class MainActivity extends AppCompatActivity {
         return view;
     }
 
-    private String formatItems(List<String> item) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < item.size(); i++) {
-            if (i == 0) {
-                sb.append("- " + item.get(i));
-            } else {
-                sb.append("\n" + "- " + item.get(i));
+    /*
+     * If education with the same id is found update it.
+     * If not, add the new education to the list.
+     */
+    private void updateEducation(Education education) {
+        boolean found = false;
+        for (int i = 0; i < educations.size(); i++) {
+            Education e = educations.get(i);
+            if (TextUtils.equals(education.id, e.id)) {
+                found = true;
+                educations.set(i, education);
+                break;
             }
         }
-        return sb.toString();
+        if (!found) {
+            educations.add(education);
+        }
+        setupEducations();
     }
 
-
-    private void fakeData() {
-        basicInfo = new BasicInfo();
-        basicInfo.name = "Hao Zhang";
-        basicInfo.email = "hzhang428@gatech.edu";
-
-        educations = new ArrayList<>();
-        Education education = new Education();
-        education.id = "latest";
-        education.school = "Georgia Institution of Technology";
-        education.major = "Computational Science and Engineering";
-        education.startDate = DateUtils.stringToDate("08/2015");
-        education.endDate = DateUtils.stringToDate("05/2018");
-        education.courses = new ArrayList<>();
-        education.courses.add("Network");
-        education.courses.add("Algorithm");
-        education.courses.add("Database");
-        educations.add(education);
-
-        Education education1 = new Education();
-        education1.id = "second";
-        education1.school = "University of Georgia";
-        education1.major = "Soil Microbiology";
-        education1.startDate = DateUtils.stringToDate("08/2010");
-        education1.endDate = DateUtils.stringToDate("05/2013");
-        education1.courses = new ArrayList<>();
-        education1.courses.add("Microbial Genetics");
-        education1.courses.add("Statistics");
-        education1.courses.add("Soil and Hydrology");
-        educations.add(education1);
-
-        experiences = new ArrayList<>();
-        Experience experience = new Experience();
-        experience.id = "latest";
-        experience.company = "Norfolk Southern";
-        experience.items = new ArrayList<>();
-        experience.items.add("Web Application Development");
-        experience.items.add("Cassandra data modeling on the backend");
-        experience.items.add("Splunk query and data visualization");
-        experiences.add(experience);
-
-        projects = new ArrayList<>();
-        Project project = new Project();
-        project.name = "MiniLinkedin";
-        project.details = new ArrayList<>();
-        project.details.add("UI design");
-        project.details.add("Implement local storage");
-        project.details.add("Multi-Language support");
-        projects.add(project);
+    private String formatItems(List<String> items) {
+        StringBuilder sb = new StringBuilder();
+        for (String item : items) {
+            sb.append("-" + item + "\n");
+        }
+        return sb.toString();
     }
 }

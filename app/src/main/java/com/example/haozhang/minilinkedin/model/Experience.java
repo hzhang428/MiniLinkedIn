@@ -1,5 +1,8 @@
 package com.example.haozhang.minilinkedin.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
 /**
@@ -13,4 +16,5 @@ public class Experience {
     public String company;
 
     public List<String> items;
+
 }

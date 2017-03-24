@@ -33,7 +33,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/caption_text_size"
-                    android:text="@string/example_name"/>
+                    android:text="@string/your_name" />
 
                 <ImageButton
                     android:id="@+id/edit_basic_info"
@@ -52,7 +52,7 @@
                 android:layout_below="@id/user_name_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/example_email"/>
+                android:text="@string/your_email" />
 
             <ImageButton
                 android:id="@+id/image"
