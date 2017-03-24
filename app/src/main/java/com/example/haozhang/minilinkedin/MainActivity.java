@@ -15,6 +15,8 @@ import com.example.haozhang.minilinkedin.model.Education;
 import com.example.haozhang.minilinkedin.model.Experience;
 import com.example.haozhang.minilinkedin.model.Project;
 import com.example.haozhang.minilinkedin.util.DateUtils;
+import com.example.haozhang.minilinkedin.util.ModelUtils;
+import com.google.gson.reflect.TypeToken;
 
 import org.w3c.dom.Text;
 
@@ -28,9 +30,9 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQ_CODE_EXPERIENCE_EDIT = 102;
     private static final int REQ_CODE_BASIC_INFO_EDIT = 103;
 
-    private static final String MODEL_EDUCATION = "educations";
-    private static final String MODEL_PROJECT = "projects";
-    private static final String MODEL_EXPERIENCE = "experiences";
+    private static final String MODEL_EDUCATIONS = "educations";
+    private static final String MODEL_PROJECTS = "projects";
+    private static final String MODEL_EXPERIENCES = "experiences";
     private static final String MODEL_BASIC_INFO = "basic_info";
 
     private BasicInfo basicInfo;
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        loadData();
         setupUI();
     }
 
@@ -54,9 +57,6 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case REQ_CODE_EDUCATION_EDIT:
                     Education education = data.getParcelableExtra(EducationEditActivity.KEY_EDUCATION);
-                    if (educations == null) {
-                        educations = new ArrayList<>();
-                    }
                     updateEducation(education);
                     break;
                 case REQ_CODE_EXPERIENCE_EDIT:
@@ -65,6 +65,25 @@ public class MainActivity extends AppCompatActivity {
                     break;
             }
         }
+    }
+
+    private void loadData() {
+        BasicInfo savedBasicInfo = ModelUtils.read(this, MODEL_BASIC_INFO, new TypeToken<BasicInfo>() {
+        });
+        basicInfo = savedBasicInfo == null ? new BasicInfo() : savedBasicInfo;
+
+        List<Education> savedEducations = ModelUtils.read(this, MODEL_EDUCATIONS, new TypeToken<List<Education>>() {
+        });
+        educations = savedEducations == null ? new ArrayList<Education>() : savedEducations;
+
+        List<Experience> savedExperiences = ModelUtils.read(this, MODEL_EXPERIENCES, new TypeToken<List<Experience>>() {
+        });
+        experiences = savedExperiences == null ? new ArrayList<Experience>() : savedExperiences;
+
+        List<Project> savedProjects = ModelUtils.read(this, MODEL_PROJECTS, new TypeToken<List<Project>>() {
+        });
+        projects = savedProjects == null ? new ArrayList<Project>() : savedProjects;
+
     }
 
     private void setupUI() {
@@ -78,15 +97,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent, REQ_CODE_EDUCATION_EDIT);
             }
         });
-//        setupBasicInfo();
-//        setupEducations();
-//        setupExperiences();
-//        setupProjects();
+        setupBasicInfo();
+        setupEducations();
+        setupExperiences();
+        setupProjects();
     }
 
     private void setupBasicInfo() {
-        ((TextView) findViewById(R.id.name)).setText(basicInfo.name);
-        ((TextView) findViewById(R.id.email)).setText(basicInfo.email);
+        ((TextView) findViewById(R.id.name)).setText(TextUtils.isEmpty(basicInfo.name) ? "Your name" : basicInfo.name);
+        ((TextView) findViewById(R.id.email)).setText(TextUtils.isEmpty(basicInfo.email) ? "Your email" : basicInfo.email);
     }
 
     private void setupEducations() {
@@ -158,6 +177,7 @@ public class MainActivity extends AppCompatActivity {
         if (!found) {
             educations.add(education);
         }
+        ModelUtils.save(this, MODEL_EDUCATIONS, educations);
         setupEducations();
     }
 
