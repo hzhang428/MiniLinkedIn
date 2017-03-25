@@ -16,15 +16,10 @@ import java.util.UUID;
 public class Education implements Parcelable {
 
     public String id;
-
     public String school;
-
     public String major;
-
     public Date startDate;
-
     public Date endDate;
-
     public List<String> courses;
 
     public Education() {

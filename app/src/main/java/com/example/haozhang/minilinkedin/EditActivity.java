@@ -11,6 +11,7 @@ import android.view.MenuItem;
  * Created by haozhang on 3/23/17.
  */
 
+
 public abstract class EditActivity<T> extends AppCompatActivity {
 
     private T data;

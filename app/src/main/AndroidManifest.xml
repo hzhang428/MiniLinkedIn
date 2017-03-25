@@ -17,6 +17,7 @@
         </activity>
 
         <activity android:name=".EducationEditActivity" />
+        <activity android:name=".BasicInfoEditActivity" />
     </application>
     s
 </manifest>

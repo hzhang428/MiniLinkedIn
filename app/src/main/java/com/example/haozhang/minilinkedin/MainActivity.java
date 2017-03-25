@@ -18,8 +18,6 @@ import com.example.haozhang.minilinkedin.util.DateUtils;
 import com.example.haozhang.minilinkedin.util.ModelUtils;
 import com.google.gson.reflect.TypeToken;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case REQ_CODE_BASIC_INFO_EDIT:
+                    BasicInfo basicInfo = data.getParcelableExtra(BasicInfoEditActivity.KEY_BASIC_INFO);
+                    updateBasicInfo(basicInfo);
                     break;
                 case REQ_CODE_EDUCATION_EDIT:
                     Education education = data.getParcelableExtra(EducationEditActivity.KEY_EDUCATION);
@@ -97,6 +97,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent, REQ_CODE_EDUCATION_EDIT);
             }
         });
+
+//        ImageButton addExperienceBtn = (ImageButton) findViewById(R.id.add_experience_btn);
+//        addExperienceBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(MainActivity.this, EducationEditActivity.class);
+//                startActivityForResult(intent, REQ_CODE_EXPERIENCE_EDIT);
+//            }
+//        });
         setupBasicInfo();
         setupEducations();
         setupExperiences();
@@ -106,6 +115,15 @@ public class MainActivity extends AppCompatActivity {
     private void setupBasicInfo() {
         ((TextView) findViewById(R.id.name)).setText(TextUtils.isEmpty(basicInfo.name) ? "Your name" : basicInfo.name);
         ((TextView) findViewById(R.id.email)).setText(TextUtils.isEmpty(basicInfo.email) ? "Your email" : basicInfo.email);
+
+        findViewById(R.id.edit_basic_info).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, BasicInfoEditActivity.class);
+                intent.putExtra(BasicInfoEditActivity.KEY_BASIC_INFO, basicInfo);
+                startActivityForResult(intent, REQ_CODE_BASIC_INFO_EDIT);
+            }
+        });
     }
 
     private void setupEducations() {
@@ -119,8 +137,10 @@ public class MainActivity extends AppCompatActivity {
     private View getEducationView(final Education education) {
         View view = getLayoutInflater().inflate(R.layout.education_item, null);
         String range = "(" + DateUtils.dateToString(education.startDate) + "~" + DateUtils.dateToString(education.endDate) + ")";
+
         ((TextView) view.findViewById(R.id.education_school)).setText(education.school + " " + range);
         ((TextView) view.findViewById(R.id.education_courses)).setText(formatItems(education.courses));
+
         view.findViewById(R.id.edit_school_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -129,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent, REQ_CODE_EDUCATION_EDIT);
             }
         });
+
         return view;
     }
 
@@ -158,6 +179,13 @@ public class MainActivity extends AppCompatActivity {
         ((TextView) view.findViewById(R.id.project_name)).setText(project.name);
         ((TextView) view.findViewById(R.id.project_detail)).setText(formatItems(project.details));
         return view;
+    }
+
+    private void updateBasicInfo(BasicInfo basicInfo) {
+        ModelUtils.save(this, MODEL_BASIC_INFO, basicInfo);
+
+        this.basicInfo = basicInfo;
+        setupBasicInfo();
     }
 
     /*
