@@ -30,14 +30,16 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="@string/education_edit_startDate" />
+            android:hint="@string/education_edit_startDate"
+            android:inputType="date" />
 
         <EditText
             android:id="@+id/education_edit_endDate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="@string/education_edit_endDate" />
+            android:hint="@string/education_edit_endDate"
+            android:inputType="date" />
     </LinearLayout>
 
     <EditText

@@ -68,12 +68,22 @@ public class MainActivity extends AppCompatActivity {
                     }
                     break;
                 case REQ_CODE_EXPERIENCE_EDIT:
-                    Experience experience = data.getParcelableExtra(ExperienceEditActivity.KEY_EXPERIENCE);
-                    updateExperience(experience);
+                    String experienceID = data.getStringExtra(ExperienceEditActivity.KEY_EXPERIENCE_ID);
+                    if (experienceID != null) {
+                        deleteExperience(experienceID);
+                    } else {
+                        Experience experience = data.getParcelableExtra(ExperienceEditActivity.KEY_EXPERIENCE);
+                        updateExperience(experience);
+                    }
                     break;
                 case REQ_CODE_PROJECT_EDIT:
-                    Project project = data.getParcelableExtra(ProjectEditActivity.KEY_PROJECT);
-                    updateProject(project);
+                    String projectID = data.getStringExtra(ProjectEditActivity.KEY_PROJECT_ID);
+                    if (projectID != null) {
+                        deleteProject(projectID);
+                    } else {
+                        Project project = data.getParcelableExtra(ProjectEditActivity.KEY_PROJECT);
+                        updateProject(project);
+                    }
                     break;
             }
         }
@@ -301,6 +311,30 @@ public class MainActivity extends AppCompatActivity {
         }
         ModelUtils.save(this, MODEL_EDUCATIONS, educations);
         setupEducations();
+    }
+
+    private void deleteExperience(String experienceID) {
+        for (int i = 0; i < experiences.size(); i++) {
+            Experience e = experiences.get(i);
+            if (TextUtils.equals(e.id, experienceID)) {
+                experiences.remove(i);
+                break;
+            }
+        }
+        ModelUtils.save(this, MODEL_EXPERIENCES, experiences);
+        setupExperiences();
+    }
+
+    private void deleteProject(String projectID) {
+        for (int i = 0; i < projects.size(); i++) {
+            Project e = projects.get(i);
+            if (TextUtils.equals(e.id, projectID)) {
+                projects.remove(i);
+                break;
+            }
+        }
+        ModelUtils.save(this, MODEL_PROJECTS, projects);
+        setupProjects();
     }
 
     private String formatItems(List<String> items) {
