@@ -19,5 +19,17 @@
     <string name="education_edit_endDate">End Date</string>
     <string name="education_edit_course">Courses</string>
 
+    <string name="experience_edit_company">Company</string>
+    <string name="experience_edit_title">Title</string>
+    <string name="experience_edit_startDate">Start Date</string>
+    <string name="experience_edit_endDate">End Date</string>
+    <string name="experience_edit_work">Work</string>
+
+    <string name="project_edit_name">Project Name</string>
+    <string name="project_edit_startDate">Start Date</string>
+    <string name="project_edit_endDate">End Date</string>
+    <string name="project_edit_detail">Details</string>
+
+
     <string name="action_save">save</string>
 </resources>
