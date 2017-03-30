@@ -6,6 +6,7 @@ import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case REQ_CODE_BASIC_INFO_EDIT:
@@ -57,8 +59,13 @@ public class MainActivity extends AppCompatActivity {
                     updateBasicInfo(basicInfo);
                     break;
                 case REQ_CODE_EDUCATION_EDIT:
-                    Education education = data.getParcelableExtra(EducationEditActivity.KEY_EDUCATION);
-                    updateEducation(education);
+                    String educationID = data.getStringExtra(EducationEditActivity.KEY_EDUCATION_ID);
+                    if (educationID != null) {
+                        deleteEducation(educationID);
+                    } else {
+                        Education education = data.getParcelableExtra(EducationEditActivity.KEY_EDUCATION);
+                        updateEducation(education);
+                    }
                     break;
                 case REQ_CODE_EXPERIENCE_EDIT:
                     Experience experience = data.getParcelableExtra(ExperienceEditActivity.KEY_EXPERIENCE);
@@ -282,6 +289,18 @@ public class MainActivity extends AppCompatActivity {
         }
         ModelUtils.save(this, MODEL_PROJECTS, projects);
         setupProjects();
+    }
+
+    private void deleteEducation(String educationID) {
+        for (int i = 0; i < educations.size(); i++) {
+            Education e = educations.get(i);
+            if (TextUtils.equals(e.id, educationID)) {
+                educations.remove(i);
+                break;
+            }
+        }
+        ModelUtils.save(this, MODEL_EDUCATIONS, educations);
+        setupEducations();
     }
 
     private String formatItems(List<String> items) {
