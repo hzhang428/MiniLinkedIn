@@ -3,6 +3,7 @@ package com.example.haozhang.minilinkedin.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -13,9 +14,10 @@ import java.util.UUID;
 public class Experience implements Parcelable {
 
     public String id;
-
+    public String title;
     public String company;
-
+    public Date startDate;
+    public Date endDate;
     public List<String> items;
 
     public Experience() {
@@ -25,6 +27,9 @@ public class Experience implements Parcelable {
     protected Experience(Parcel in) {
         id = in.readString();
         company = in.readString();
+        title = in.readString();
+        startDate = new Date(in.readLong());
+        endDate = new Date(in.readLong());
         items = in.createStringArrayList();
     }
 
@@ -49,6 +54,9 @@ public class Experience implements Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(id);
         parcel.writeString(company);
+        parcel.writeString(title);
+        parcel.writeLong(startDate.getTime());
+        parcel.writeLong(endDate.getTime());
         parcel.writeStringList(items);
     }
 }

@@ -2,6 +2,7 @@ package com.example.haozhang.minilinkedin;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -60,8 +61,12 @@ public class MainActivity extends AppCompatActivity {
                     updateEducation(education);
                     break;
                 case REQ_CODE_EXPERIENCE_EDIT:
+                    Experience experience = data.getParcelableExtra(ExperienceEditActivity.KEY_EXPERIENCE);
+                    updateExperience(experience);
                     break;
                 case REQ_CODE_PROJECT_EDIT:
+                    Project project = data.getParcelableExtra(ProjectEditActivity.KEY_PROJECT);
+                    updateProject(project);
                     break;
             }
         }
@@ -98,14 +103,24 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        ImageButton addExperienceBtn = (ImageButton) findViewById(R.id.add_experience_btn);
-//        addExperienceBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(MainActivity.this, EducationEditActivity.class);
-//                startActivityForResult(intent, REQ_CODE_EXPERIENCE_EDIT);
-//            }
-//        });
+        ImageButton addExperienceBtn = (ImageButton) findViewById(R.id.add_experience_btn);
+        addExperienceBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, ExperienceEditActivity.class);
+                startActivityForResult(intent, REQ_CODE_EXPERIENCE_EDIT);
+            }
+        });
+
+        ImageButton addProjectBtn = (ImageButton) findViewById(R.id.add_projects_btn);
+        addProjectBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, ProjectEditActivity.class);
+                startActivityForResult(intent, REQ_CODE_PROJECT_EDIT);
+            }
+        });
+
         setupBasicInfo();
         setupEducations();
         setupExperiences();
@@ -139,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
         String range = "(" + DateUtils.dateToString(education.startDate) + "~" + DateUtils.dateToString(education.endDate) + ")";
 
         ((TextView) view.findViewById(R.id.education_school)).setText(education.school + " " + range);
+        ((TextView) view.findViewById(R.id.education_major)).setText(education.major);
         ((TextView) view.findViewById(R.id.education_courses)).setText(formatItems(education.courses));
 
         view.findViewById(R.id.edit_school_btn).setOnClickListener(new View.OnClickListener() {
@@ -155,29 +171,54 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupExperiences() {
         LinearLayout experienceLayout = (LinearLayout) findViewById(R.id.experiences);
+        experienceLayout.removeAllViews();
         for (Experience experience : experiences) {
             experienceLayout.addView(getExperienceView(experience));
         }
     }
 
-    private View getExperienceView(Experience experience) {
+    private View getExperienceView(final Experience experience) {
         View view = getLayoutInflater().inflate(R.layout.experience_item, null);
-        ((TextView) view.findViewById(R.id.experience_company)).setText(experience.company);
+        String range = "(" + DateUtils.dateToString(experience.startDate) + "~" + DateUtils.dateToString(experience.endDate) + ")";
+
+        ((TextView) view.findViewById(R.id.experience_company)).setText(experience.company + " " + range);
+        ((TextView) view.findViewById(R.id.experience_title)).setText(experience.title);
         ((TextView) view.findViewById(R.id.experience_detail)).setText(formatItems(experience.items));
+
+        view.findViewById(R.id.edit_experience_detail_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, ExperienceEditActivity.class);
+                intent.putExtra(ExperienceEditActivity.KEY_EXPERIENCE, experience);
+                startActivityForResult(intent, REQ_CODE_EXPERIENCE_EDIT);
+            }
+        });
         return view;
     }
 
     private void setupProjects() {
         LinearLayout projectLayout = (LinearLayout) findViewById(R.id.projects);
+        projectLayout.removeAllViews();
         for (Project project : projects) {
             projectLayout.addView(getProjectView(project));
         }
     }
 
-    private View getProjectView(Project project) {
+    private View getProjectView(final Project project) {
         View view = getLayoutInflater().inflate(R.layout.project_item, null);
-        ((TextView) view.findViewById(R.id.project_name)).setText(project.name);
+        String range = "(" + DateUtils.dateToString(project.startDate) + "~" + DateUtils.dateToString(project.endDate) + ")";
+
+        ((TextView) view.findViewById(R.id.project_name)).setText(project.name + " " + range);
         ((TextView) view.findViewById(R.id.project_detail)).setText(formatItems(project.details));
+
+        view.findViewById(R.id.edit_project_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, ProjectEditActivity.class);
+                intent.putExtra(ProjectEditActivity.KEY_PROJECT, project);
+                startActivityForResult(intent, REQ_CODE_PROJECT_EDIT);
+            }
+        });
         return view;
     }
 
@@ -207,6 +248,40 @@ public class MainActivity extends AppCompatActivity {
         }
         ModelUtils.save(this, MODEL_EDUCATIONS, educations);
         setupEducations();
+    }
+
+    private void updateExperience(Experience experience) {
+        boolean found = false;
+        for (int i = 0; i < experiences.size(); i++) {
+            Experience e = experiences.get(i);
+            if (TextUtils.equals(experience.id, e.id)) {
+                found = true;
+                experiences.set(i, experience);
+                break;
+            }
+        }
+        if (!found) {
+            experiences.add(experience);
+        }
+        ModelUtils.save(this, MODEL_EXPERIENCES, experiences);
+        setupExperiences();
+    }
+
+    private void updateProject(Project project) {
+        boolean found = false;
+        for (int i = 0; i < projects.size(); i++) {
+            Project e = projects.get(i);
+            if (TextUtils.equals(project.id, e.id)) {
+                found = true;
+                projects.set(i, project);
+                break;
+            }
+        }
+        if (!found) {
+            projects.add(project);
+        }
+        ModelUtils.save(this, MODEL_PROJECTS, projects);
+        setupProjects();
     }
 
     private String formatItems(List<String> items) {

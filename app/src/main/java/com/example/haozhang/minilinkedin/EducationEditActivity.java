@@ -56,9 +56,9 @@ public class EducationEditActivity extends EditActivity<Education> {
         data.endDate = DateUtils.stringToDate(((EditText) findViewById(R.id.education_edit_endDate)).getText().toString());
         data.courses = Arrays.asList(TextUtils.split(((EditText) findViewById(R.id.education_edit_courses)).getText().toString(), "\n"));
 
-        Intent resultIntent = new Intent();
-        resultIntent.putExtra(KEY_EDUCATION, data);
-        setResult(Activity.RESULT_OK, resultIntent);
+        Intent result = new Intent();
+        result.putExtra(KEY_EDUCATION, data);
+        setResult(Activity.RESULT_OK, result);
         finish();
     }
 

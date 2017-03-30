@@ -28,9 +28,18 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/experience_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/spacing_medium"
+        android:paddingBottom="@dimen/spacing_xsmall"
+        android:text="@string/example_title" />
+
+    <TextView
         android:id="@+id/experience_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/spacing_medium"
         android:text="- Web Application Development\n- Cassandra\n- Splunk" />
 
 </LinearLayout>

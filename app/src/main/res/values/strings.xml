@@ -5,10 +5,12 @@
     <string name="your_email">username@gmail.com</string>
 
     <string name="section_education">Education</string>
+    <string name="example_major">Computational Science and Engineering</string>
     <string name="example_school">Georgia Institution of Technology</string>
 
     <string name="section_experience">Experience</string>
     <string name="example_experience">Norfolk Southern</string>
+    <string name="example_title">Web Developer</string>
 
     <string name="section_projects">Projects</string>
     <string name="example_project">Mini Linkedin Mobile Client</string>
