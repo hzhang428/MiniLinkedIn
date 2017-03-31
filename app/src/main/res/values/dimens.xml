@@ -11,4 +11,6 @@
     <dimen name="caption_text_size">25dp</dimen>
     <dimen name="delete_btn_font_size">17sp</dimen>
 
+    <dimen name="edit_user_picture_height">180dp</dimen>
+
 </resources>
