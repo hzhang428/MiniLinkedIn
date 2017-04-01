@@ -20,6 +20,7 @@ import java.lang.reflect.Type;
 
 /**
  * Created by haozhang on 3/24/17.
+ * Implemented Gson to parse the values to be stored and accessed through SharedPreferences
  */
 
 public class ModelUtils {
@@ -32,6 +33,8 @@ public class ModelUtils {
 
     private static String PREF_NAME = "models";
 
+    //apply() don't return any boolean values whereas commit() returns a boolean value.
+    //so apply() is faster because it is asynchronous.
     public static void save(Context context, String key, Object object) {
         SharedPreferences sp = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         String jsonString = gsonForSerialization.toJson(object);

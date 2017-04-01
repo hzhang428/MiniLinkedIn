@@ -17,7 +17,7 @@
             android:background="@color/user_picture_picker_color" />
 
         <ImageView
-            android:id="@+id/basic_info_edit_image"
+            android:id="@+id/basic_info_image"
             android:layout_width="match_parent"
             android:layout_height="@dimen/edit_user_picture_height"
             android:scaleType="fitCenter"
@@ -25,6 +25,7 @@
             android:contentDescription="@string/user_profile_image" />
 
         <ImageView
+            android:id="@+id/basic_info_edit_image"
             android:layout_width="@dimen/icon_button_size"
             android:layout_height="@dimen/icon_button_size"
             android:layout_marginEnd="@dimen/spacing_medium"
