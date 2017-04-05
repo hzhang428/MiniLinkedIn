@@ -2,21 +2,61 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="@dimen/spacing_medium">
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/basic_info_edit_image_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/edit_user_picture_height"
+        android:background="?attr/selectableItemBackground">
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/user_picture_picker_color" />
+
+        <ImageView
+            android:id="@+id/basic_info_image"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/edit_user_picture_height"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_person_white_48dp"
+            android:contentDescription="@string/user_profile_image" />
+
+        <ImageView
+            android:id="@+id/basic_info_edit_image"
+            android:layout_width="@dimen/icon_button_size"
+            android:layout_height="@dimen/icon_button_size"
+            android:layout_marginEnd="@dimen/spacing_medium"
+            android:layout_marginRight="@dimen/spacing_medium"
+            android:layout_marginBottom="@dimen/spacing_medium"
+            android:layout_gravity="bottom|end"
+            android:background="?attr/selectableItemBackground"
+            android:src="@drawable/ic_add_a_photo_white_24dp"
+            android:contentDescription="@string/user_profile_add_image" />
+
+
+    </FrameLayout>
 
     <EditText
         android:id="@+id/basic_info_edit_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/spacing_medium"
+        android:layout_marginTop="@dimen/spacing_medium"
+        android:layout_marginLeft="@dimen/spacing_medium"
+        android:layout_marginRight="@dimen/spacing_medium"
         android:hint="@string/your_name" />
 
     <EditText
         android:id="@+id/basic_info_edit_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/spacing_medium"
-        android:hint="@string/your_email" />
+        android:layout_marginTop="@dimen/spacing_medium"
+        android:layout_marginLeft="@dimen/spacing_medium"
+        android:layout_marginRight="@dimen/spacing_medium"
+        android:hint="@string/your_email"
+        android:inputType="textEmailAddress" />
 
 </LinearLayout>

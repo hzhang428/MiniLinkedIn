@@ -6,6 +6,7 @@ import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case REQ_CODE_BASIC_INFO_EDIT:
@@ -57,16 +59,31 @@ public class MainActivity extends AppCompatActivity {
                     updateBasicInfo(basicInfo);
                     break;
                 case REQ_CODE_EDUCATION_EDIT:
-                    Education education = data.getParcelableExtra(EducationEditActivity.KEY_EDUCATION);
-                    updateEducation(education);
+                    String educationID = data.getStringExtra(EducationEditActivity.KEY_EDUCATION_ID);
+                    if (educationID != null) {
+                        deleteEducation(educationID);
+                    } else {
+                        Education education = data.getParcelableExtra(EducationEditActivity.KEY_EDUCATION);
+                        updateEducation(education);
+                    }
                     break;
                 case REQ_CODE_EXPERIENCE_EDIT:
-                    Experience experience = data.getParcelableExtra(ExperienceEditActivity.KEY_EXPERIENCE);
-                    updateExperience(experience);
+                    String experienceID = data.getStringExtra(ExperienceEditActivity.KEY_EXPERIENCE_ID);
+                    if (experienceID != null) {
+                        deleteExperience(experienceID);
+                    } else {
+                        Experience experience = data.getParcelableExtra(ExperienceEditActivity.KEY_EXPERIENCE);
+                        updateExperience(experience);
+                    }
                     break;
                 case REQ_CODE_PROJECT_EDIT:
-                    Project project = data.getParcelableExtra(ProjectEditActivity.KEY_PROJECT);
-                    updateProject(project);
+                    String projectID = data.getStringExtra(ProjectEditActivity.KEY_PROJECT_ID);
+                    if (projectID != null) {
+                        deleteProject(projectID);
+                    } else {
+                        Project project = data.getParcelableExtra(ProjectEditActivity.KEY_PROJECT);
+                        updateProject(project);
+                    }
                     break;
             }
         }
@@ -279,6 +296,42 @@ public class MainActivity extends AppCompatActivity {
         }
         if (!found) {
             projects.add(project);
+        }
+        ModelUtils.save(this, MODEL_PROJECTS, projects);
+        setupProjects();
+    }
+
+    private void deleteEducation(String educationID) {
+        for (int i = 0; i < educations.size(); i++) {
+            Education e = educations.get(i);
+            if (TextUtils.equals(e.id, educationID)) {
+                educations.remove(i);
+                break;
+            }
+        }
+        ModelUtils.save(this, MODEL_EDUCATIONS, educations);
+        setupEducations();
+    }
+
+    private void deleteExperience(String experienceID) {
+        for (int i = 0; i < experiences.size(); i++) {
+            Experience e = experiences.get(i);
+            if (TextUtils.equals(e.id, experienceID)) {
+                experiences.remove(i);
+                break;
+            }
+        }
+        ModelUtils.save(this, MODEL_EXPERIENCES, experiences);
+        setupExperiences();
+    }
+
+    private void deleteProject(String projectID) {
+        for (int i = 0; i < projects.size(); i++) {
+            Project e = projects.get(i);
+            if (TextUtils.equals(e.id, projectID)) {
+                projects.remove(i);
+                break;
+            }
         }
         ModelUtils.save(this, MODEL_PROJECTS, projects);
         setupProjects();

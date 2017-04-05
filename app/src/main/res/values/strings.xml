@@ -1,8 +1,10 @@
 <resources>
     <string name="app_name">MiniLinkedIn</string>
 
-    <string name="your_name">Your Name</string>
+    <string name="your_name">Name</string>
     <string name="your_email">username@gmail.com</string>
+    <string name="user_profile_add_image">add user image</string>
+    <string name="user_profile_image">user image</string>
 
     <string name="section_education">Education</string>
     <string name="example_major">Computational Science and Engineering</string>
@@ -34,4 +36,5 @@
 
 
     <string name="action_save">save</string>
+    <string name="action_delete">DELETE</string>
 </resources>

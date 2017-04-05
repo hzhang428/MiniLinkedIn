@@ -23,14 +23,16 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="@string/project_edit_startDate" />
+            android:hint="@string/project_edit_startDate"
+            android:inputType="date" />
 
         <EditText
             android:id="@+id/project_edit_endDate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="@string/project_edit_endDate" />
+            android:hint="@string/project_edit_endDate"
+            android:inputType="date" />
     </LinearLayout>
 
     <EditText
@@ -38,5 +40,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/project_edit_detail" />
+
+    <TextView
+        android:id="@+id/project_delete_btn"
+        android:layout_marginTop="@dimen/spacing_medium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:text="@string/action_delete"
+        android:textSize="@dimen/delete_btn_font_size"
+        style="@style/AppTheme.TextView.DeleteButton" />
 
 </LinearLayout>
